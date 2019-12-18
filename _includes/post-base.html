@@ -1,0 +1,62 @@
+<div class="row item">
+  <div class="mb-3 col-md-2">
+    <img class="item-thumbnail" src="{{ page.thumbnail_url }}">
+  </div>
+
+  <div class="mb-3 col-md-10">
+    <a href="#">
+      <h3 class="ebook_title text-primary"> {{ page.title }} </h3>
+    </a>
+
+    <h6 class="">{{ site.text.author }}: {{ page.author }}</h6>
+    <h6 class="">{{ site.text.category }}:
+      <a href="#">
+        {% for cat in page.categories %}
+          {{ cat | strip }}
+        {% endfor %}
+      </a>
+    </h6>
+
+    <h6 class="">{{ site.text.tags }}:
+      {% for tag in page.tags %}
+        {% if forloop.last == true %}
+          {{ tag | strip }}.
+        {% else %}
+          {{ tag | strip }},
+        {% endif %}
+      {% endfor %}
+    </h6>
+
+    {% if page.download_links %}
+      <div class="alert alert-info" role="alert">
+        <i class="fa fa-download" aria-hidden="true"></i> {{ site.text.select_format }}
+      </div>
+
+      <div class="item-downloads">
+        {% assign cnt = 0 %}
+        {% for link_info in page.download_links %}
+          {% for p in site.s %}
+
+            {% include ql.html %}
+
+            {% assign value = cnt | modulo: 2 %}
+            {% if value == 0 %}
+              <a onclick="window.location.href='{{ q }}{{ link_info.url }}'"
+              type="button" class="{{ n }} mb-1 btn btn-success btn-sm">
+                {{ n }}/{{ link_info.info }}
+              </a>
+            {% else %}
+              <a onclick="window.location.href='{{ q }}{{ link_info.url }}'"
+              type="button" class="{{ n }} mb-1 btn btn-danger btn-sm">
+                {{ n }}/{{ link_info.info }}
+              </a>
+            {% endif %}
+
+            {% assign cnt = cnt | plus: 1 %}
+          {% endfor %}
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</div>
+<hr>
